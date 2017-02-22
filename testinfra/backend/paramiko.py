@@ -37,7 +37,7 @@ class IgnorePolicy(paramiko.MissingHostKeyPolicy):
 class ParamikoBackend(base.BaseBackend):
     NAME = "paramiko"
 
-    def __init__(self, hostspec, ssh_config=None, 
+    def __init__(self, hostspec, ssh_config=None,
                  ssh_passwd=False, *args, **kwargs):
         self.host, self.user, self.port = self.parse_hostspec(hostspec)
         self.ssh_config = ssh_config
