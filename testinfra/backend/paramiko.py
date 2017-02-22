@@ -50,7 +50,8 @@ class ParamikoBackend(base.BaseBackend):
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.WarningPolicy())
             if self.ssh_paswd:
-                self.password = elf.user.split(":")[1]
+                self.password = self.user.split(":")[1]
+                self.user = self.user.split(":")[0]
                 cfg = {
                     "hostname": self.host,
                     "port": int(self.port) if self.port else 22,
