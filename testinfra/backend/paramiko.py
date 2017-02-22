@@ -37,9 +37,10 @@ class IgnorePolicy(paramiko.MissingHostKeyPolicy):
 class ParamikoBackend(base.BaseBackend):
     NAME = "paramiko"
 
-    def __init__(self, hostspec, ssh_config=None, *args, **kwargs):
+    def __init__(self, hostspec, ssh_config=None, ssh_passwd=False, *args, **kwargs):
         self.host, self.user, self.port = self.parse_hostspec(hostspec)
         self.ssh_config = ssh_config
+        self.ssh_passwd = ssh_passwd
         self._client = None
         super(ParamikoBackend, self).__init__(self.host, *args, **kwargs)
 
@@ -48,11 +49,20 @@ class ParamikoBackend(base.BaseBackend):
         if self._client is None:
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.WarningPolicy())
-            cfg = {
-                "hostname": self.host,
-                "port": int(self.port) if self.port else 22,
-                "username": self.user,
-            }
+            if self.ssh_paswd:
+                self.password = elf.user.split(":")[1]
+                cfg = {
+                    "hostname": self.host,
+                    "port": int(self.port) if self.port else 22,
+                    "username": self.user,
+                    "password": self.password
+                }
+            else:
+                cfg = {
+                    "hostname": self.host,
+                    "port": int(self.port) if self.port else 22,
+                    "username": self.user,
+                }
             if self.ssh_config:
                 ssh_config = paramiko.SSHConfig()
                 with open(os.path.expanduser(self.ssh_config)) as f:

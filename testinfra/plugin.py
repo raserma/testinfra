@@ -106,6 +106,12 @@ def pytest_addoption(parser):
         dest="nagios",
         help="Nagios plugin",
     )
+    group.addoption(
+        "--ssh-passwd",
+        action="store_true",
+        dest="ssh_passwd",
+        help="Password option",
+    )
 
 
 def pytest_generate_tests(metafunc):
