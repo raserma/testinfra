@@ -56,7 +56,7 @@ class ParamikoBackend(base.BaseBackend):
                     "hostname": self.host,
                     "port": int(self.port) if self.port else 22,
                     "username": self.user,
-                    "password": self.password
+                    "password": self.password,
                 }
             else:
                 cfg = {
